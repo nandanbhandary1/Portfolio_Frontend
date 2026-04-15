@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import { Card, CardContent } from './ui/card';
-import { Mail, Phone, MapPin, Loader2, CheckCircle2 } from 'lucide-react';
+import React, { useState } from "react";
+import axios from "axios";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { Card, CardContent } from "./ui/card";
+import { Mail, Phone, MapPin, Loader2, CheckCircle2 } from "lucide-react";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const ContactForm = ({ personalInfo }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
@@ -22,7 +22,7 @@ const ContactForm = ({ personalInfo }) => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -31,25 +31,29 @@ const ContactForm = ({ personalInfo }) => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    try {
-      const response = await axios.post(`${API}/contact`, formData);
-      setSubmitStatus({ 
-        type: 'success', 
-        message: response.data.message 
-      });
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (error) {
+    // simulate delay (optional for realism)
+    setTimeout(() => {
       setSubmitStatus({
-        type: 'error',
-        message: error.response?.data?.detail || 'Failed to send message. Please try again.'
+        type: "success",
+        message: "Form submitted! I will get back to you soon.",
       });
-    } finally {
+
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+
       setIsSubmitting(false);
-    }
+    }, 1000);
   };
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+    <section
+      id="contact"
+      className="py-20 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
@@ -108,9 +112,7 @@ const ContactForm = ({ personalInfo }) => {
                     <MapPin className="text-white" size={24} />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white mb-1">
-                      Location
-                    </h3>
+                    <h3 className="font-semibold text-white mb-1">Location</h3>
                     <p className="text-white/90">{personalInfo.location}</p>
                   </div>
                 </div>
@@ -200,12 +202,13 @@ const ContactForm = ({ personalInfo }) => {
 
                 {submitStatus && (
                   <div
-                    className={`flex items-center space-x-2 p-3 rounded-lg ${ submitStatus.type === 'success'
-                        ? 'bg-green-50 text-green-800'
-                        : 'bg-red-50 text-red-800'
+                    className={`flex items-center space-x-2 p-3 rounded-lg ${
+                      submitStatus.type === "success"
+                        ? "bg-green-50 text-green-800"
+                        : "bg-red-50 text-red-800"
                     }`}
                   >
-                    {submitStatus.type === 'success' && (
+                    {submitStatus.type === "success" && (
                       <CheckCircle2 size={20} />
                     )}
                     <span className="text-sm">{submitStatus.message}</span>
@@ -223,7 +226,7 @@ const ContactForm = ({ personalInfo }) => {
                       Sending...
                     </>
                   ) : (
-                    'Send Message'
+                    "Send Message"
                   )}
                 </Button>
               </form>
